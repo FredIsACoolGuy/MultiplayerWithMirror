@@ -20,8 +20,7 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
     [SyncVar(hook = nameof(HandleReadyStatusChanged))]
     public bool IsReady = false;
 
-
-
+    private GameObject[] characters = new GameObject[4];
 
     public bool isLeader;
 
@@ -74,11 +73,13 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
 
     private void UpdateDisplay()
     {
-        if (!isLocalPlayer)
+        if (!hasAuthority)
         {
+            lobbyUI.SetActive(false);
+
             foreach (var player in Room.RoomPlayers)
             {
-                if (player.isLocalPlayer)
+                if (player.hasAuthority)
                 {
                     player.UpdateDisplay();
                     break;
@@ -86,6 +87,8 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
             }
 
             return;
+
+            
         }
 
         for (int i = 0; i < playerNameTexts.Length; i++)
@@ -93,6 +96,7 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
             playerNameTexts[i].text = "Waiting For Player...";
             playerReadyTexts[i].text = string.Empty;
         }
+
         
         for (int i = 0; i < Room.RoomPlayers.Count; i++)
         {
@@ -104,6 +108,27 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
             else
             {
                 playerReadyTexts[i].text = "<color=red>Not Ready</color>";
+            }
+        }
+
+
+        int j= 0;
+        foreach(Transform child in GameObject.Find("Characters").transform)
+        {
+            characters[j] = child.gameObject;
+            j++;
+        }
+        
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (i < Room.RoomPlayers.Count)
+            {
+                characters[i].SetActive(true);
+            }
+            else
+            {
+                characters[i].SetActive(false);
             }
         }
     }

@@ -42,7 +42,7 @@ public class JoinLobbyMenu : MonoBehaviour
         gameObject.SetActive(false);
         landingPage.SetActive(false);
     }
-
+    
     private void HandleClientDisconnected()
     {
         joinButton.interactable = true;
