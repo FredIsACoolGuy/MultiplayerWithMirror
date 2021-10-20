@@ -15,10 +15,20 @@ public class NetworkManagerOverride : NetworkManager
 
     [SerializeField] private NetworkRoomPlayerLobby roomPlayerPrefab = null;
 
+    [Header("Game")]
+    [SerializeField] private NetworkGamePlayer gamePlayerPrefab = null;
+    [SerializeField] private GameObject playerSpawnSystem = null;
+
+
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
+    public static event Action<NetworkConnection> OnServerReadied;
 
+    //in lobby list
     public List<NetworkRoomPlayerLobby> RoomPlayers { get; } = new List<NetworkRoomPlayerLobby>();
+    
+    //in game list
+    public List<NetworkGamePlayer> GamePlayers { get; } = new List<NetworkGamePlayer>();
 
 
 
@@ -135,4 +145,57 @@ public class NetworkManagerOverride : NetworkManager
 
         return true;
     }
+
+
+    public void StartGame()
+    {
+        if(SceneManager.GetActiveScene().path == menuScene)
+        {
+            if (!IsReadyToStart()) { 
+                return; 
+            }
+            ServerChangeScene("Map_01");
+        }
+    }
+
+    public override void ServerChangeScene(string newSceneName)
+    {
+        if(SceneManager.GetActiveScene().path == menuScene && newSceneName.StartsWith("Map"))
+        {
+            //for each player
+            for(int i = RoomPlayers.Count-1; i>=0; i--)
+            {
+                var conn = RoomPlayers[i].connectionToClient;
+                //spawn in game player prefab
+                var gameplayerInstance = Instantiate(gamePlayerPrefab);
+                gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
+                //destroy room player
+                NetworkServer.Destroy(conn.identity.gameObject);
+                //replace connection with game player prefab
+                NetworkServer.ReplacePlayerForConnection(conn, gameplayerInstance.gameObject, true);
+            }
+        }
+
+        base.ServerChangeScene(newSceneName);
+    }
+
+    public override void OnServerSceneChanged(string sceneName)
+    {
+        if (sceneName.StartsWith("Map"))
+        {
+            GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem);
+            NetworkServer.Spawn(playerSpawnSystemInstance);
+        }
+
+    }
+
+
+    public override void OnServerReady(NetworkConnection conn)
+    {
+        base.OnServerReady(conn);
+
+        OnServerReadied?.Invoke(conn);
+    }
+
+
 }
