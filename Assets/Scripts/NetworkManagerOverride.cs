@@ -162,17 +162,26 @@ public class NetworkManagerOverride : NetworkManager
         if(SceneManager.GetActiveScene().path == menuScene && newSceneName.StartsWith("Map"))
         {
             //for each player
-            for(int i = RoomPlayers.Count-1; i>=0; i--)
+            GamePlayers.Clear();
+            for (int i = RoomPlayers.Count-1; i>=0; i--)
             {
                 var conn = RoomPlayers[i].connectionToClient;
                 //spawn in game player prefab
                 var gameplayerInstance = Instantiate(gamePlayerPrefab);
                 gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
+
+                ///gameplayerInstance.GetComponent<CharacterLookScript>().changeSkin(RoomPlayers[i].skinNum);
+
+                gameplayerInstance.SetSkinNum(RoomPlayers[i].skinNum);
+                gameplayerInstance.SetHatNum(RoomPlayers[i].hatNum);
+                GamePlayers.Add(gameplayerInstance.GetComponent< NetworkGamePlayer>());
                 //destroy room player
                 NetworkServer.Destroy(conn.identity.gameObject);
                 //replace connection with game player prefab
                 NetworkServer.ReplacePlayerForConnection(conn, gameplayerInstance.gameObject, true);
             }
+
+            Debug.Log(GamePlayers[0].gameObject + "  " + GamePlayers[1].gameObject);
         }
 
         base.ServerChangeScene(newSceneName);
@@ -183,6 +192,7 @@ public class NetworkManagerOverride : NetworkManager
         if (sceneName.StartsWith("Map"))
         {
             GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem);
+
             NetworkServer.Spawn(playerSpawnSystemInstance);
         }
 

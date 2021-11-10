@@ -15,6 +15,11 @@ public class CharacterLookScript : NetworkBehaviour
     public void playerStart()
     {
         mr = this.GetComponentInChildren<SkinnedMeshRenderer>();
+        if (this.GetComponent<NetworkGamePlayer>() != null)
+        {
+            changeSkin(this.GetComponent<NetworkGamePlayer>().skinNum);
+            changeHat(this.GetComponent<NetworkGamePlayer>().hatNum);
+        }
     }
 
     public void setVisable(bool visable)
@@ -40,11 +45,5 @@ public class CharacterLookScript : NetworkBehaviour
                 hats[i].SetActive(false);
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

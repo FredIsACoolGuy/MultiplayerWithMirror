@@ -48,9 +48,27 @@ public class PlayerSpawnSystem : NetworkBehaviour
             return;
         }
 
-        GameObject playerInstance = Instantiate(playerPrefab, spawnPoints[nextIndex].position, spawnPoints[nextIndex].rotation);
-        NetworkServer.Spawn(playerInstance, conn);
+        GameObject playerInstance = conn.identity.gameObject;
+
+     
+        CallLooks(playerInstance, nextIndex);
+        //GameObject playerInstance = Instantiate(playerPrefab, spawnPoints[nextIndex].position, spawnPoints[nextIndex].rotation);
+        //playerInstance.GetComponent<SkinnedMeshRenderer>().material = conn.identity.GetComponent<SkinnedMeshRenderer>().material;
+
+        //Debug.Log(conn);
+
+        //NetworkServer.Spawn(playerInstance, conn);
+        
         //NetworkServer.AddPlayerForConnection(conn, playerInstance);
         nextIndex++;
+    }
+
+    [ClientRpc]
+    public void CallLooks(GameObject playerInstance, int posNum)
+    {
+        playerInstance.transform.position = spawnPoints[posNum].position;
+        playerInstance.transform.rotation = spawnPoints[posNum].rotation;
+        playerInstance.GetComponent<CharacterLookScript>().playerStart();
+        
     }
 }

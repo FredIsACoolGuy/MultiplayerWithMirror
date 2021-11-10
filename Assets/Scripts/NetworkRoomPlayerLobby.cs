@@ -77,7 +77,7 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
 
     private void PositionPlayerButtons()
     {
-        playerButtons.GetComponent<RectTransform>().anchoredPosition = new Vector2((190 * playerNum) - 270f, -125f);       
+        playerButtons.GetComponent<RectTransform>().anchoredPosition = new Vector2((180 * playerNum) - 270f, -125f);       
         playerButtons.SetActive(true);
 
         playerReadyImage[playerNum].sprite = readyImageSprites[3];

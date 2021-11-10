@@ -12,7 +12,12 @@ public class NetworkGamePlayer : NetworkBehaviour
     [SyncVar]
     public string DisplayName = "Loading...";
 
-    private GameObject[] characters = new GameObject[4];
+    [SyncVar]
+    public int skinNum = 0;
+    [SyncVar]
+    public int hatNum = 0;
+
+    private List<GameObject> characters = new List<GameObject>();
 
     private NetworkManagerOverride room;
     private NetworkManagerOverride Room
@@ -27,10 +32,23 @@ public class NetworkGamePlayer : NetworkBehaviour
         }
     }
 
+    public void UpdateLooks()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (i < Room.GamePlayers.Count)
+            {
+                Room.GamePlayers[i].GetComponent<CharacterLookScript>().playerStart();
+            }
+        }
+    }
+
+
     public override void OnStartClient()
     {
         DontDestroyOnLoad(this.gameObject);
         Room.GamePlayers.Add(this);
+        UpdateLooks();
     }
 
     public override void OnStopClient()
@@ -43,6 +61,18 @@ public class NetworkGamePlayer : NetworkBehaviour
     public void SetDisplayName(string displayName)
     {
         this.DisplayName = displayName;
+    }
+
+    [Server]
+    public void SetSkinNum(int num)
+    {
+        this.skinNum = num;      
+    }
+
+    [Server]
+    public void SetHatNum(int num)
+    {
+        this.hatNum = num;
     }
 
 }
