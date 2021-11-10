@@ -7,11 +7,15 @@ using Mirror;
 
 public class NetworkRoomPlayerLobby : NetworkBehaviour
 {
-    //UI
+    [Header("UI")]
     [SerializeField] private GameObject lobbyUI = null;
+    [SerializeField] private GameObject playerButtons = null;
     [SerializeField] private TMP_Text[] playerNameTexts = new TMP_Text[4];
     [SerializeField] private TMP_Text[] playerReadyTexts = new TMP_Text[4];
+    [SerializeField] private Image[] playerReadyImage = new Image[4];
     [SerializeField] private Button startGameButton = null;
+
+    public Sprite[] readyImageSprites = new Sprite[4];
 
     //can only be updated on the server
     //when variables change these functions are called
@@ -20,10 +24,18 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
     [SyncVar(hook = nameof(HandleReadyStatusChanged))]
     public bool IsReady = false;
 
-    private GameObject[] characters = new GameObject[4];
+    [Header("Customization")]
+    [SerializeField] private CharacterLookScript[] characters = new CharacterLookScript[4];
+    public int playerNum;
+    [SyncVar(hook = nameof(HandleSkinStatusChanged))]
+    public int skinNum = 0;
+    [SyncVar(hook = nameof(HandleHatStatusChanged))]
+    public int hatNum = 0;
 
     public bool isLeader;
 
+    private const int maxSkinNum = 8;
+    private const int maxHatNum = 11;
     public bool IsLeader
     {
         set
@@ -51,6 +63,24 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
         CmdSetDisplayName(PlayerNameInput.DisplayName);
 
         lobbyUI.SetActive(true);
+        //CmdSetPlayerNum(Room.RoomPlayers.Count);
+
+        playerNum = Room.RoomPlayers.Count;
+
+        PositionPlayerButtons();
+
+        foreach(CharacterLookScript cls in characters)
+        {
+            cls.playerStart();
+        }
+    }
+
+    private void PositionPlayerButtons()
+    {
+        playerButtons.GetComponent<RectTransform>().anchoredPosition = new Vector2((190 * playerNum) - 270f, -125f);       
+        playerButtons.SetActive(true);
+
+        playerReadyImage[playerNum].sprite = readyImageSprites[3];
     }
 
     public override void OnStartClient()
@@ -67,8 +97,12 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
         UpdateDisplay();
     }
 
+
+    // whenever one of these values change the UpdateDisplay() function is called
     public void HandleDisplayNameChanged(string oldValue, string newValue) => UpdateDisplay();
     public void HandleReadyStatusChanged(bool oldValue, bool newValue) => UpdateDisplay();
+    public void HandleSkinStatusChanged(int oldValue, int newValue) => UpdateDisplay();
+    public void HandleHatStatusChanged(int oldValue, int newValue) => UpdateDisplay();
 
 
     private void UpdateDisplay()
@@ -77,14 +111,19 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
         {
             lobbyUI.SetActive(false);
 
+            int p = 0;
+
             foreach (var player in Room.RoomPlayers)
             {
                 if (player.hasAuthority)
                 {
+                    player.playerNum = p;
                     player.UpdateDisplay();
                     break;
                 }
+                p++;
             }
+
 
             return;
 
@@ -93,8 +132,9 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
 
         for (int i = 0; i < playerNameTexts.Length; i++)
         {
-            playerNameTexts[i].text = "Waiting For Player...";
-            playerReadyTexts[i].text = string.Empty;
+            playerNameTexts[i].text = "";
+            // playerReadyTexts[i].text = string.Empty;
+            playerReadyImage[i].sprite = readyImageSprites[0];
         }
 
         
@@ -103,34 +143,33 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
             playerNameTexts[i].text = Room.RoomPlayers[i].DisplayName;
             if (Room.RoomPlayers[i].IsReady)
             {
-                playerReadyTexts[i].text = "<color=green>Ready</color>";
+                //playerReadyTexts[i].text = "<color=green>Ready</color>";
+                playerReadyImage[i].sprite = readyImageSprites[2];
+
             }
             else
             {
-                playerReadyTexts[i].text = "<color=red>Not Ready</color>";
+                //playerReadyTexts[i].text = "<color=red>Not Ready</color>";
+                playerReadyImage[i].sprite = readyImageSprites[1];
+
             }
         }
-
-
-        int j= 0;
-        foreach(Transform child in GameObject.Find("Characters").transform)
-        {
-            characters[j] = child.gameObject;
-            j++;
-        }
-        
 
         for (int i = 0; i < 4; i++)
         {
             if (i < Room.RoomPlayers.Count)
             {
-                characters[i].SetActive(true);
+                characters[i].setVisable(true);
+                characters[i].changeSkin(Room.RoomPlayers[i].skinNum);
+                characters[i].changeHat(Room.RoomPlayers[i].hatNum);
             }
             else
             {
-                characters[i].SetActive(false);
+                characters[i].setVisable(false);
             }
         }
+
+        PositionPlayerButtons();
     }
 
     //sets start button active for host when all players are ready
@@ -151,6 +190,24 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
     private void CmdSetDisplayName(string displayName)
     {
         DisplayName = displayName;
+    }
+
+    [Command]
+    private void CmdSetPlayerNum(int pNum)
+    {
+        playerNum = pNum;
+    }
+
+    [Command]
+    public void CmdIncSkinNum()
+    {
+        skinNum = (skinNum+1) % maxSkinNum;
+    }
+
+    [Command]
+    public void CmdIncHatNum()
+    {
+        hatNum = (hatNum + 1) % maxHatNum;
     }
 
     [Command]
@@ -175,5 +232,11 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
         Room.StartGame();
     }
 
+    [Command]
+
+    public void CmdChangeSkin()
+    {
+        Room.ChangeSkin(playerNum);
+    }
 
 }

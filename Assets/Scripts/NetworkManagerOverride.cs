@@ -19,7 +19,6 @@ public class NetworkManagerOverride : NetworkManager
     [SerializeField] private NetworkGamePlayer gamePlayerPrefab = null;
     [SerializeField] private GameObject playerSpawnSystem = null;
 
-
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
     public static event Action<NetworkConnection> OnServerReadied;
@@ -197,5 +196,10 @@ public class NetworkManagerOverride : NetworkManager
         OnServerReadied?.Invoke(conn);
     }
 
+    [Server]
+    public void ChangeSkin(int playerNum)
+    {
+        Debug.Log(playerNum);
+    }
 
 }
