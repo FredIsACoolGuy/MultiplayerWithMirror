@@ -6,7 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/StartScreen.unity
+    guid: 9c8d6e3cd0d35744daa1e50e0bd7d9d9
+  - enabled: 1
+    path: Assets/Scenes/SteamMenuScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/Map_01.unity
@@ -14,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/OfflineScene.unity
     guid: da5793e468b5fb243b1973427c49a8d2
+  - enabled: 1
+    path: Assets/Scenes/LANMenuScene.unity
+    guid: 29dc408d431d68a42b8f6ea2f8f36b52
   m_configObjects: {}
