@@ -14,7 +14,6 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
     [SerializeField] private TMP_Text[] playerReadyTexts = new TMP_Text[4];
     [SerializeField] private Image[] playerReadyImage = new Image[4];
     [SerializeField] private Button startGameButton = null;
-    [SerializeField] private Button settingsButton = null;
 
     public Sprite[] readyImageSprites = new Sprite[4];
 
@@ -43,7 +42,6 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
         {
             isLeader = value;
             startGameButton.gameObject.SetActive(value);
-            settingsButton.gameObject.SetActive(value);
         }
     }
 
