@@ -29,7 +29,8 @@ public class NetworkManagerOverride : NetworkManager
     //in game list
     public List<NetworkGamePlayer> GamePlayers { get; } = new List<NetworkGamePlayer>();
 
-
+    public GameObject title;
+    public GameObject hostButton;
 
     //load all prefabs that can be spawned into the networked scene
     public override void OnStartServer()
@@ -58,7 +59,8 @@ public class NetworkManagerOverride : NetworkManager
     public override void OnClientDisconnect(NetworkConnection conn)
     {
         base.OnClientDisconnect(conn);
-
+        title.SetActive(false);
+        hostButton.SetActive(false);
         OnClientDisconnected?.Invoke();
     }
 

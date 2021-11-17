@@ -11,7 +11,6 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
     [SerializeField] private GameObject lobbyUI = null;
     [SerializeField] private GameObject playerButtons = null;
     [SerializeField] private TMP_Text[] playerNameTexts = new TMP_Text[4];
-    [SerializeField] private TMP_Text[] playerReadyTexts = new TMP_Text[4];
     [SerializeField] private Image[] playerReadyImage = new Image[4];
     [SerializeField] private Button startGameButton = null;
     [SerializeField] private Button settingsButton = null;
@@ -109,6 +108,9 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
 
     private void UpdateDisplay()
     {
+
+        CmdSetDisplayName(PlayerNameInput.DisplayName);
+
         if (!hasAuthority)
         {
             lobbyUI.SetActive(false);
@@ -135,7 +137,6 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
         for (int i = 0; i < playerNameTexts.Length; i++)
         {
             playerNameTexts[i].text = "";
-            // playerReadyTexts[i].text = string.Empty;
             playerReadyImage[i].sprite = readyImageSprites[0];
         }
 
@@ -145,16 +146,15 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
             playerNameTexts[i].text = Room.RoomPlayers[i].DisplayName;
             if (Room.RoomPlayers[i].IsReady)
             {
-                //playerReadyTexts[i].text = "<color=green>Ready</color>";
                 playerReadyImage[i].sprite = readyImageSprites[2];
 
             }
             else
             {
-                //playerReadyTexts[i].text = "<color=red>Not Ready</color>";
                 playerReadyImage[i].sprite = readyImageSprites[1];
 
             }
+
         }
 
         for (int i = 0; i < 4; i++)

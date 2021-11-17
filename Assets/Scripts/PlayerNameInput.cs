@@ -17,6 +17,7 @@ public class PlayerNameInput : MonoBehaviour
     //used to load from playerPrefs
     private const string PlayerPrefsKey = "PlayerName";
 
+    
 
     void Start()
     {
@@ -38,6 +39,7 @@ public class PlayerNameInput : MonoBehaviour
         nameInput.text = defaultName;
 
         SetPlayerName(defaultName);
+        SavePlayerName();
     }
 
     //if name is not null or empty the continue button becomes active
@@ -50,6 +52,7 @@ public class PlayerNameInput : MonoBehaviour
     public void SetPlayerName(string name)
     {
         continueButton.interactable = !string.IsNullOrEmpty(name);
+        SavePlayerName();
     }
 
     //stores the name in the player prefs
