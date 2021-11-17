@@ -354,7 +354,7 @@ GameObject:
   - component: {fileID: 7920006663288027692}
   - component: {fileID: 2361337399929593994}
   m_Layer: 5
-  m_Name: FriendItem
+  m_Name: FriendToJoin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

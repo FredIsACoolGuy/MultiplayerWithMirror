@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 3150364}
   - component: {fileID: 3150366}
   - component: {fileID: 3150365}
+  - component: {fileID: 3150367}
   m_Layer: 5
   m_Name: JoinPanel
   m_TagString: Untagged
@@ -203,6 +204,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3150363}
   m_CullTransparentMesh: 1
+--- !u!114 &3150367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3150363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31f1cf628be721142824b81e3da5b030, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  friendName: {fileID: 1101789026}
+  content: {fileID: 1544191094}
+  listItem: {fileID: 7216926176962579029, guid: 962c1ebd108e82d4d9cdda055f59c07f, type: 3}
 --- !u!1 &22143462
 GameObject:
   m_ObjectHideFlags: 0
@@ -1967,7 +1983,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2135103409}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SteamFindFriendsLobbies, Assembly-CSharp
         m_MethodName: RefreshList
         m_Mode: 1
@@ -2322,7 +2338,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: -17}
+  m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1496219675
 MonoBehaviour:
@@ -2421,6 +2437,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1544191094}
   - component: {fileID: 1544191095}
+  - component: {fileID: 1544191096}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -2445,7 +2462,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 300}
+  m_SizeDelta: {x: 0, y: 7}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1544191095
 MonoBehaviour:
@@ -2473,6 +2490,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1544191096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544191093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &1598586524
 GameObject:
   m_ObjectHideFlags: 0
@@ -2834,8 +2865,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -236, y: 70}
-  m_SizeDelta: {x: 270.1351, y: 61.7976}
+  m_AnchoredPosition: {x: -236, y: 99.94595}
+  m_SizeDelta: {x: 270.1351, y: 121.69}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1854974052
 MonoBehaviour:
@@ -2857,7 +2888,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Steam friends
+  m_text: 'Join
+
+    Steam friends'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 38ee6519a406db24cb95dc04d56629b5, type: 2}
   m_sharedMaterial: {fileID: -7726980727370267648, guid: 38ee6519a406db24cb95dc04d56629b5, type: 2}
@@ -3793,7 +3826,6 @@ GameObject:
   - component: {fileID: 2135103412}
   - component: {fileID: 2135103411}
   - component: {fileID: 2135103410}
-  - component: {fileID: 2135103409}
   m_Layer: 5
   m_Name: JoinButton
   m_TagString: Untagged
@@ -3821,21 +3853,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -79}
   m_SizeDelta: {x: 160, y: 44.8589}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2135103409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2135103407}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31f1cf628be721142824b81e3da5b030, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  friendName: {fileID: 1101789026}
-  content: {fileID: 1544191094}
-  listItem: {fileID: 7216926176962579029, guid: 962c1ebd108e82d4d9cdda055f59c07f, type: 3}
 --- !u!114 &2135103410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3880,7 +3897,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2135103409}
+      - m_Target: {fileID: 3150367}
         m_TargetAssemblyTypeName: SteamFindFriendsLobbies, Assembly-CSharp
         m_MethodName: RefreshList
         m_Mode: 1

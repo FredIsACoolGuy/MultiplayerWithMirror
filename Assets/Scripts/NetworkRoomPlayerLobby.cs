@@ -14,6 +14,7 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
     [SerializeField] private Image[] playerReadyImage = new Image[4];
     [SerializeField] private Button startGameButton = null;
     [SerializeField] private Button settingsButton = null;
+    [SerializeField] private Button inviteButton = null;
 
     public Sprite[] readyImageSprites = new Sprite[4];
 
@@ -43,6 +44,7 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
             isLeader = value;
             startGameButton.gameObject.SetActive(value);
             settingsButton.gameObject.SetActive(value);
+            inviteButton.gameObject.SetActive(value);
         }
     }
 
@@ -108,8 +110,11 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
 
     private void UpdateDisplay()
     {
-
-        CmdSetDisplayName(PlayerNameInput.DisplayName);
+        // current error not sure why this is happening come here to fix it
+        if (Room.isNetworkActive)
+        {
+            CmdSetDisplayName(PlayerNameInput.DisplayName);
+        }
 
         if (!hasAuthority)
         {
