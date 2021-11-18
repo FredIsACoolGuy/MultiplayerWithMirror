@@ -11,13 +11,14 @@ public class SteamLobby : MonoBehaviour
     protected Callback<LobbyEnter_t> lobbyEntered;
 
     [SerializeField] private GameObject title;
-    [SerializeField] private GameObject hostButton;
+    [SerializeField] private GameObject buttons;
 
     private NetworkManager networkManager;
 
     private const string hostAddressKey = "hostAddress";
     private void Start()
     {
+        Debug.Log(this.name);
         networkManager = GetComponent<NetworkManager>();
 
         if (!SteamManager.Initialized)
@@ -64,7 +65,7 @@ public class SteamLobby : MonoBehaviour
         networkManager.networkAddress = hostAddress;
         networkManager.StartClient();
         title.SetActive(false);
-        hostButton.SetActive(false);
+        buttons.SetActive(false);
     }
 
 }

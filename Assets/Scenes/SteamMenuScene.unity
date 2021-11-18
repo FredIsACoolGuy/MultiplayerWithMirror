@@ -1983,7 +1983,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3150367}
         m_TargetAssemblyTypeName: SteamFindFriendsLobbies, Assembly-CSharp
         m_MethodName: RefreshList
         m_Mode: 1
@@ -3812,8 +3812,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8afd932f8a9c7144abe45c796eb6ab75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: {fileID: 0}
-  hostButton: {fileID: 0}
+  title: {fileID: 501287847}
+  buttons: {fileID: 982050373}
 --- !u!1 &2135103407
 GameObject:
   m_ObjectHideFlags: 0

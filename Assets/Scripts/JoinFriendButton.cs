@@ -13,11 +13,17 @@ public class JoinFriendButton : MonoBehaviour
     public RawImage avatar;
 
     private ulong steamIdStored;
+    private NetworkManager networkManager;
 
     protected Callback<AvatarImageLoaded_t> avatarImageLoaded;
+    protected Callback<LobbyEnter_t> lobbyEntered;
+    private const string hostAddressKey = "hostAddress";
+
 
     private void Start()
     {
+        networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        Debug.Log(networkManager.name);
         avatarImageLoaded = Callback<AvatarImageLoaded_t>.Create(OnAvatarImageLoaded);
     }
     public void clicked()
@@ -77,5 +83,19 @@ public class JoinFriendButton : MonoBehaviour
         }
 
         avatar.texture = GetSteamImage(callback.m_iImage);
+    }
+
+
+    private void OnLobbyEntered(LobbyEnter_t callback)
+    {
+        if (NetworkServer.active)
+        {
+            return;
+        }
+
+        string hostAddress = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), hostAddressKey);
+
+        networkManager.networkAddress = hostAddress;
+        networkManager.StartClient();
     }
 }
