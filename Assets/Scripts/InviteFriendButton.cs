@@ -15,6 +15,7 @@ public class InviteFriendButton : MonoBehaviour
     private ulong steamIdStored;
 
     protected Callback<AvatarImageLoaded_t> avatarImageLoaded;
+    protected Callback<LobbyInvite_t> lobbyInvite;
 
     private void Start()
     {
@@ -23,7 +24,17 @@ public class InviteFriendButton : MonoBehaviour
     public void clicked()
     {
         CSteamID steamIdFriend = SteamFriends.GetFriendByIndex(friendNum, EFriendFlags.k_EFriendFlagAll);
-        SteamMatchmaking.InviteUserToLobby(steamIdFriend, SteamUser.GetSteamID());
+        FriendGameInfo_t playerInfo;
+        SteamFriends.GetFriendGamePlayed(SteamUser.GetSteamID(), out playerInfo);
+        
+        if (SteamMatchmaking.InviteUserToLobby(playerInfo.m_steamIDLobby, steamIdFriend))
+        {
+            tmp.text="Sent";
+        }
+        else
+        {
+            tmp.text = "Not Sent";
+        }
     }
 
     public void setName(string name)
@@ -69,6 +80,8 @@ public class InviteFriendButton : MonoBehaviour
         return texture;
     }
 
+    
+   
     private void OnAvatarImageLoaded(AvatarImageLoaded_t callback)
     {
         if (callback.m_steamID.m_SteamID != steamIdStored)

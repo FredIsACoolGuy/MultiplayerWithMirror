@@ -60,6 +60,11 @@ public class SteamLobby : MonoBehaviour
             return;
         }
 
+        if (GameObject.Find("JoinPanel"))
+        {
+            GameObject.Find("JoinPanel").SetActive(false);
+        }
+
         string hostAddress = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), hostAddressKey);
 
         networkManager.networkAddress = hostAddress;
@@ -67,5 +72,6 @@ public class SteamLobby : MonoBehaviour
         title.SetActive(false);
         buttons.SetActive(false);
     }
+
 
 }
