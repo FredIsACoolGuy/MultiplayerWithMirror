@@ -11,9 +11,6 @@ public class SteamLobby : MonoBehaviour
     protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
     protected Callback<LobbyEnter_t> lobbyEntered;
 
-    [SerializeField] private GameObject title;
-    [SerializeField] private GameObject buttons;
-
     private NetworkManager networkManager;
 
     private const string hostAddressKey = "hostAddress";
@@ -33,15 +30,18 @@ public class SteamLobby : MonoBehaviour
         lobbyDataUpdate = Callback<LobbyDataUpdate_t>.Create(OnLobbyDataUpdate);
         gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnGameLobbyJoinRequested);
         lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
-
     }
     public void HostLobby()
     {
+        ClientDisconnect();
+
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, networkManager.maxConnections);   
     }
 
     public void HostPublicLobby()
     {
+        ClientDisconnect();
+
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, networkManager.maxConnections);
     }
 
@@ -89,6 +89,7 @@ public class SteamLobby : MonoBehaviour
         {
             return;
         }
+        ClientDisconnect();
 
         if (GameObject.Find("JoinPanel"))
         {
@@ -104,8 +105,28 @@ public class SteamLobby : MonoBehaviour
 
         networkManager.networkAddress = hostAddress;
         networkManager.StartClient();
-        title.SetActive(false);
-        buttons.SetActive(false);
+
+        if (GameObject.Find("Title"))
+        {
+            GameObject.Find("Title").SetActive(false);
+        }
+        if (GameObject.Find("LandingPagePanel"))
+        {
+            GameObject.Find("LandingPagePanel").SetActive(false);
+        }
+    }
+
+    public void ClientDisconnect()
+    {
+        FriendGameInfo_t playerInfo;
+        SteamFriends.GetFriendGamePlayed(SteamUser.GetSteamID(), out playerInfo);
+        Debug.Log("PlayerLobbyBefore:"+playerInfo.m_steamIDLobby);
+        SteamMatchmaking.LeaveLobby(playerInfo.m_steamIDLobby);
+
+        SteamFriends.GetFriendGamePlayed(SteamUser.GetSteamID(), out playerInfo);
+
+        Debug.Log("PlayerLobbyafter:" + playerInfo.m_steamIDLobby);
+
     }
 
 

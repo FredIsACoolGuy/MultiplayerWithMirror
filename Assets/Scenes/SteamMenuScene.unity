@@ -4059,8 +4059,6 @@ MonoBehaviour:
   roomPlayerPrefab: {fileID: 6628949282100482053, guid: c0c29ef2b4f76424bb08f79601ce9e05, type: 3}
   gamePlayerPrefab: {fileID: 8015754391334550006, guid: 2a9976562f27d48478cc96fb52ed7311, type: 3}
   playerSpawnSystem: {fileID: 344826767306143028, guid: a36b2569c030a4e4da972fd1a374003c, type: 3}
-  title: {fileID: 501287847}
-  hostButton: {fileID: 982050373}
 --- !u!114 &2064407358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4117,8 +4115,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8afd932f8a9c7144abe45c796eb6ab75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: {fileID: 501287847}
-  buttons: {fileID: 982050373}
 --- !u!1 &2135103407
 GameObject:
   m_ObjectHideFlags: 0

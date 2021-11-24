@@ -29,9 +29,6 @@ public class NetworkManagerOverride : NetworkManager
     //in game list
     public List<NetworkGamePlayer> GamePlayers { get; } = new List<NetworkGamePlayer>();
 
-    public GameObject title;
-    public GameObject hostButton;
-
     //load all prefabs that can be spawned into the networked scene
     public override void OnStartServer()
     {
@@ -58,10 +55,25 @@ public class NetworkManagerOverride : NetworkManager
     //called on client when disconnecting from the server
     public override void OnClientDisconnect(NetworkConnection conn)
     {
+
+        if (GetComponent<SteamLobby>() != null)
+        {
+            GetComponent<SteamLobby>().ClientDisconnect();
+        }
         base.OnClientDisconnect(conn);
-        title.SetActive(false);
-        hostButton.SetActive(false);
+
+        //if (GameObject.Find("Title"))
+        //{
+        //    GameObject.Find("Title").SetActive(false);
+        //}
+        //if (GameObject.Find("LandingPagePanel"))
+        //{
+        //    GameObject.Find("LandingPagePanel").SetActive(false);
+        //}
         OnClientDisconnected?.Invoke();
+
+
+
     }
 
     //called when a client connects to the server
@@ -112,6 +124,7 @@ public class NetworkManagerOverride : NetworkManager
             NotifyPlayersOfReadyState();
 
         }
+
         base.OnServerDisconnect(conn);
     }
 
