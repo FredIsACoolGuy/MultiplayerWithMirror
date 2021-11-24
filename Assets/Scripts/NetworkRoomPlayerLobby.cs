@@ -15,6 +15,7 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
     [SerializeField] private Button startGameButton = null;
     [SerializeField] private Button settingsButton = null;
     [SerializeField] private Button inviteButton = null;
+    [SerializeField] private Button exitButton = null;
 
     public Sprite[] readyImageSprites = new Sprite[4];
 
@@ -45,6 +46,7 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
             startGameButton.gameObject.SetActive(value);
             settingsButton.gameObject.SetActive(value);
             inviteButton.gameObject.SetActive(value);
+            exitButton.GetComponent<DisconnectFromGameButton>().isLeader = value;
         }
     }
 
