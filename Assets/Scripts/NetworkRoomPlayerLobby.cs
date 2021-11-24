@@ -105,18 +105,21 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
 
     // whenever one of these values change the UpdateDisplay() function is called
     public void HandleDisplayNameChanged(string oldValue, string newValue) => UpdateDisplay();
-    public void HandleReadyStatusChanged(bool oldValue, bool newValue) => UpdateDisplay();
+    public void HandleReadyStatusChanged(bool oldValue, bool newValue) => UpdateDisplayName();
     public void HandleSkinStatusChanged(int oldValue, int newValue) => UpdateDisplay();
     public void HandleHatStatusChanged(int oldValue, int newValue) => UpdateDisplay();
 
-
-    private void UpdateDisplay()
-    {
-        // current error not sure why this is happening come here to fix it
+    private void UpdateDisplayName()
+    {       
         if (Room.isNetworkActive)
         {
             CmdSetDisplayName(PlayerNameInput.DisplayName);
         }
+    }
+
+    private void UpdateDisplay()
+    {
+
 
         if (!hasAuthority)
         {
@@ -198,7 +201,7 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
 
     private void CmdSetDisplayName(string displayName)
     {
-        DisplayName = displayName;
+            DisplayName = displayName;
     }
 
     [Command]
