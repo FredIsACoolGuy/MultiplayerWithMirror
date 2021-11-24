@@ -30,7 +30,7 @@ public class SteamQuickMatch : MonoBehaviour
     public void clicked()
     {
         text.text = "loadin";
-        SteamMatchmaking.AddRequestLobbyListStringFilter("Key", "FredsGame", ELobbyComparison.k_ELobbyComparisonEqual);
+        SteamMatchmaking.AddRequestLobbyListStringFilter("Key", "FredsGame", ELobbyComparison.k_ELobbyComparisonNotEqual);
         SteamMatchmaking.RequestLobbyList();
     }
 

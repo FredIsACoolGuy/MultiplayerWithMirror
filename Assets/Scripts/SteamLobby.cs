@@ -33,7 +33,7 @@ public class SteamLobby : MonoBehaviour
     }
     public void HostLobby()
     {
-        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, networkManager.maxConnections);   
+        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, networkManager.maxConnections);   
     }
 
     private void OnLobbyCreated(LobbyCreated_t callback)
