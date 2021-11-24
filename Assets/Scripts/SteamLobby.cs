@@ -45,9 +45,11 @@ public class SteamLobby : MonoBehaviour
         }
 
         networkManager.StartHost();
+        CSteamID lobbyID = new CSteamID(callback.m_ulSteamIDLobby);
+        SteamMatchmaking.SetLobbyData(lobbyID, hostAddressKey, SteamUser.GetSteamID().ToString());
+        SteamMatchmaking.SetLobbyData(lobbyID, "Key", "FredsGame");
 
-        SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), hostAddressKey, SteamUser.GetSteamID().ToString());
-        SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "Key", "Freds Game");
+        Debug.Log(SteamMatchmaking.GetLobbyData(lobbyID, "Key"));
 
     }
     private void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)
