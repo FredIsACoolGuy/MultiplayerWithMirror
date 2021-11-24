@@ -33,8 +33,7 @@ public class SteamLobby : MonoBehaviour
     }
     public void HostLobby()
     {
-        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, networkManager.maxConnections);
-        SteamMatchmaking.SetLobbyData(SteamUser.GetSteamID(), "Key", "Freds Game");
+        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, networkManager.maxConnections);   
     }
 
     private void OnLobbyCreated(LobbyCreated_t callback)
@@ -48,6 +47,8 @@ public class SteamLobby : MonoBehaviour
         networkManager.StartHost();
 
         SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), hostAddressKey, SteamUser.GetSteamID().ToString());
+        SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "Key", "Freds Game");
+
     }
     private void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)
     {
