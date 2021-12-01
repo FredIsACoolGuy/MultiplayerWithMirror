@@ -21,38 +21,39 @@ public class SteamQuickMatch : MonoBehaviour
     void Start()
     {
         networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
-
+        //set up callbacks
         lobbyMatchList = Callback<LobbyMatchList_t>.Create(OnLobbyMatchList);
         lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    //called when button clicked
     public void clicked()
     {   
+        //adds a filter to the search to make sure it is only finding lobbies playing this game
         SteamMatchmaking.AddRequestLobbyListStringFilter("Key", "FredsGame", ELobbyComparison.k_ELobbyComparisonEqual);
+        //requests a list of all lobbies from steam using the filter we just set above
         SteamMatchmaking.RequestLobbyList();
     }
 
+    //called once steam retreives the lobby list
     private void OnLobbyMatchList(LobbyMatchList_t callback)
     {
-
+        //if there are no lobbies then host a public lobby
         if (callback.m_nLobbiesMatching == 0)
         {
             steamLobby.HostPublicLobby();
         }
         else
         {
+            //if there are lobbies then call tryJoinLobby
             lobbyToCheck = 0;
             maxLobbyToCheck = (int)callback.m_nLobbiesMatching;
             tryJoinLobby();
         }
+        //loop through all lobbies in the list
         for (int i = 0; i< callback.m_nLobbiesMatching; i++)
         {
+            //get the lobby ID 
             CSteamID lobbyID = SteamMatchmaking.GetLobbyByIndex(i);
 
             ///Debuging
@@ -69,18 +70,12 @@ public class SteamQuickMatch : MonoBehaviour
             ///
             ///text.text = text.text + " , " + value;
 
+            //join this lobby
             SteamMatchmaking.JoinLobby(lobbyID);
         }
-
-        /* if (callback.m_nLobbiesMatching == 0)
-         {
-             text.text = "No LOBBIE";
-         }*/
-
-       // text.text = text.text+callback.m_nLobbiesMatching.ToString();
     }
 
-
+    //get the lobbyID and join it
     private void tryJoinLobby()
     {
         CSteamID lobbyID = SteamMatchmaking.GetLobbyByIndex(lobbyToCheck);
@@ -88,12 +83,16 @@ public class SteamQuickMatch : MonoBehaviour
     }
 
 
+    //if lobby entered call back
     private void OnLobbyEntered(LobbyEnter_t callback)
     {
+        //this checks if the lobby was joined or not
        if(callback.m_EChatRoomEnterResponse == 5)
         {
+            //if the lobby was not entered then increase lobbyToCheck num
             lobbyToCheck++;
 
+            //if all the lobbies have been checked and failed to join, host a new lobby
             if (lobbyToCheck >= maxLobbyToCheck)
             {
                 steamLobby.HostPublicLobby();
@@ -108,16 +107,15 @@ public class SteamQuickMatch : MonoBehaviour
         {
             return;
         }
-
+        //hide unnessicarry UI
         if (GameObject.Find("JoinPanel"))
         {
             GameObject.Find("JoinPanel").SetActive(false);
         }
-
+        //join the Mirror server
         string hostAddress = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), hostAddressKey);
 
         networkManager.networkAddress = hostAddress;
         networkManager.StartClient();
     }
-
 }

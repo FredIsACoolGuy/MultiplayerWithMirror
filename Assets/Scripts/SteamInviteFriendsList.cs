@@ -45,10 +45,13 @@ public class SteamInviteFriendsList : MonoBehaviour
         {
             //gets the friends steam ID
             CSteamID steamIdFriend = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagAll);
-            
+            //hides loading text
             loadingText.enabled = false;
+            //instantiates new item
             GameObject newItem = Instantiate(listItem, content);
+            //adds item to list
             listOfObjects.Add(newItem);
+            //passes data to the button
             newItem.GetComponent<InviteFriendButton>().friendNum = i;
             newItem.GetComponent<InviteFriendButton>().setName(SteamFriends.GetFriendPersonaName(steamIdFriend));
             newItem.GetComponent<InviteFriendButton>().setImage(steamIdFriend);

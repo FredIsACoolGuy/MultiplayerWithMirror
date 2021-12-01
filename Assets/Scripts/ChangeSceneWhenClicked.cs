@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class ChangeSceneWhenClicked : MonoBehaviour
 {
-    public int sceneNum;
+   public int sceneNum;
+    //changes to the scene number stored in sceneNum
    public void clicked()
     {
         SceneManager.LoadScene(sceneNum);
