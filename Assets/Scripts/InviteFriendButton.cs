@@ -29,7 +29,7 @@ public class InviteFriendButton : MonoBehaviour
     //called when button pressed
     public void clicked()
     {
-        //finds teh steamID for the friend using the index stored in friendNum
+        //finds the steamID for the friend using the index stored in friendNum
         CSteamID steamIdFriend = SteamFriends.GetFriendByIndex(friendNum, EFriendFlags.k_EFriendFlagAll);
 
         //gets the player info about this player using their steamID to get the current lobby ID

@@ -64,9 +64,10 @@ public class SteamFindFriendsLobbies : MonoBehaviour
                 //adds new item to the list
                 listOfObjects.Add(newItem);
                 //passes data to the button
-                newItem.GetComponent<JoinFriendButton>().friendNum = i;
-                newItem.GetComponent<JoinFriendButton>().setName(SteamFriends.GetFriendPersonaName(steamIdFriend));
-                newItem.GetComponent<JoinFriendButton>().setImage(steamIdFriend);
+                JoinFriendButton button = newItem.GetComponent<JoinFriendButton>();
+                button.friendNum = i;
+                button.setName(SteamFriends.GetFriendPersonaName(steamIdFriend));
+                button.setImage(steamIdFriend);
             }
         }
     }

@@ -51,10 +51,12 @@ public class SteamInviteFriendsList : MonoBehaviour
             GameObject newItem = Instantiate(listItem, content);
             //adds item to list
             listOfObjects.Add(newItem);
+
             //passes data to the button
-            newItem.GetComponent<InviteFriendButton>().friendNum = i;
-            newItem.GetComponent<InviteFriendButton>().setName(SteamFriends.GetFriendPersonaName(steamIdFriend));
-            newItem.GetComponent<InviteFriendButton>().setImage(steamIdFriend);
+            InviteFriendButton button = newItem.GetComponent<InviteFriendButton>();
+            button.friendNum = i;
+            button.setName(SteamFriends.GetFriendPersonaName(steamIdFriend));
+            button.setImage(steamIdFriend);
             
         }
     }
