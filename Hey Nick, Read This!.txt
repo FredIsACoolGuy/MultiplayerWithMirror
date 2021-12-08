@@ -1,0 +1,15 @@
+Hello,
+If you wanna test the game theres a few ways to go about it! 
+
+LOCAL PLAY - play on different instances on the same computer
+
+To play with the local multiplayer option, just open the FowlBuild folder
+and play the Unity .exe file. You can open this up to four times and host locally
+on one and join to the "localhost" on the others.
+
+STEAM PLAY - play with steam friends - they would also have to do this 
+
+In the Steam Library, click on Add a Game. Find the Unity build in the FowlBuild folder.
+Then open the game through Steam and click on "Play on Steam". 
+
+Both of these are shown in the video if thats easier.
