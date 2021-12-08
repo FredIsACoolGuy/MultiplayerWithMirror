@@ -9,6 +9,7 @@ public class DisconnectFromGameButton : MonoBehaviour
 {
     //number of scene to load
     public int sceneNum;
+
     //stores whether the client is also the host
     public bool isLeader = false;
     //the network manager
@@ -40,6 +41,8 @@ public class DisconnectFromGameButton : MonoBehaviour
         {
             networkManager.GetComponent<SteamLobby>().ClientDisconnect();
         }
+
+
 
         //destroys this old network manager so a new one can be initialized
         Destroy(networkManager);

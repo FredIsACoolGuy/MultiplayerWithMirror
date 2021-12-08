@@ -72,7 +72,6 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
         }
     }
 
-
     //called on start only on objects this client has authority over
     public override void OnStartAuthority()
     {
@@ -80,6 +79,7 @@ public class NetworkRoomPlayerLobby : NetworkBehaviour
         CmdSetDisplayName(PlayerNameInput.DisplayName);
         //turn on the lobby UI
         lobbyUI.SetActive(true);
+
         //gets the player number by finding how many other players are currently in the lobby
         playerNum = Room.RoomPlayers.Count;
         //move player buttons to align with the character
